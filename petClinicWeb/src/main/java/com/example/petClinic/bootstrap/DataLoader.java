@@ -4,8 +4,7 @@ import com.example.petClinic.model.Owner;
 import com.example.petClinic.model.Vet;
 import com.example.petClinic.services.OwnerService;
 import com.example.petClinic.services.VetService;
-import com.example.petClinic.services.map.OwnerServiceMap;
-import com.example.petClinic.services.map.VetServiceMap;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -15,9 +14,13 @@ public class DataLoader implements CommandLineRunner {
     private final OwnerService ownerService;
     private final VetService vetService;
 
-    public DataLoader() {
-        this.ownerService = new OwnerServiceMap();
-        this.vetService = new VetServiceMap();
+    @Autowired // technically with spring 4.2 and up we don't need to use Autowired with
+    // constructor based dependency injection that is the default behaviour
+    // that annotation can be omitted but used here just to clarify
+    public DataLoader(OwnerService ownerService, VetService vetService) {
+        this.ownerService = ownerService;
+
+        this.vetService = vetService;
     }
 
     @Override
